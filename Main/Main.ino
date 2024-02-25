@@ -125,12 +125,7 @@ void callNumber()
   bool currentcallButtonState = digitalRead(CALL);
   if (currentcallButtonState == 0 ) 
   {
-    for (int i = 0; i < 10; i++)
-    {
-      numberPhone += String(phone[i]);
-      delay(50);
-      Serial.println(numberPhone);
-    }
+    for (int i = 0; i < 10; i++) {numberPhone += String(phone[i]); delay(50); Serial.println(numberPhone);}
     if (numberPhone.length() == 10) 
     {
       lcd.clear();
