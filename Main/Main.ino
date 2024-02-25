@@ -18,12 +18,10 @@ int DOWN = 4;
 int SW = 5;
 int CALL = 18;
 int BUZZ = 2;
-
 int phone[10] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 int num1 = 0;
 int num2 = 1;
 int i;
-
 String numberPhone = "";
 
 void setup() {
@@ -46,7 +44,8 @@ void setup() {
   pinMode(CALL, INPUT_PULLUP);
   pinMode(BUZZ, OUTPUT);
 
-  for(int i = 10; i >-1 ;i-- ){  
+  for(int i = 10; i >-1 ;i-- )
+  {  
     lcd.setCursor(7,0);
     lcd.print(i);
     lcd.print(" ");
@@ -80,74 +79,60 @@ void loop() {
   lcd.write(1);
 }
 
-void numPlus() {
+void numPlus() 
+{
   static bool upButtonState = 1;
-  bool currentUpButtonState = digitalRead(UP);
-
-  if (currentUpButtonState == 0 && upButtonState == 1) {
-
+  if (digitalRead(UP) == 0 && upButtonState == 1) 
+  {
     Ring();
-
     phone[num1]++;
-    if (phone[num1] > 9) {
-      phone[num1] = 0;
-    }
+    if (phone[num1] > 9) {phone[num1] = 0;}
   }
-
-  upButtonState = currentUpButtonState;
+  upButtonState = digitalRead(UP);
 }
 
-void numMinus() {
+void numMinus() 
+{
   static bool downButtonState = 1;
-  bool currentDownButtonState = digitalRead(DOWN);
-
-  if (currentDownButtonState == 0 && downButtonState == 1) {
-
+  if (digitalRead(DOWN) == 0 && downButtonState == 1)
+  {
     Ring();
-
     phone[num1]--;
-    if (phone[num1] < 0) {
-      phone[num1] = 9;
-    }
+    if (phone[num1] < 0) {phone[num1] = 9;}
   }
-
-  downButtonState = currentDownButtonState;
+  downButtonState = digitalRead(DOWN);
 }
-void changeCursor() {
+void changeCursor() 
+{
   static bool swButtonState = 1;
-  bool currentswButtonState = digitalRead(SW);
-
-  if (currentswButtonState == 0 && swButtonState == 1) {
+  if (digitalRead(SW) == 0 && swButtonState == 1) 
+  {
     lcd.clear();
     Ring();
-
     num1++;
-    if (num1 > 9) {
-      num1 = 0;
-    }
-
+    if (num1 > 9) {num1 = 0;}
     lcd.setCursor(0, 0);
     lcd.print(phone[0]); lcd.print(phone[1]); lcd.print(phone[2]); lcd.print(phone[3]); lcd.print(phone[4]);
     lcd.print(phone[5]); lcd.print(phone[6]); lcd.print(phone[7]); lcd.print(phone[8]); lcd.print(phone[9]);
     lcd.print("       ");
-
     lcd.setCursor(num1, 1);
     lcd.write(1);
   }
-
-  swButtonState = currentswButtonState;
+  swButtonState = digitalRead(SW);
 }
-void callNumber() {
+void callNumber() 
+{
   bool currentcallButtonState = digitalRead(CALL);
-
-  if (currentcallButtonState == 0 ) {
-    for (int i = 0; i < 10; i++){
-    numberPhone += String(phone[i]);
-    delay(50);
-    Serial.println(numberPhone);
+  if (currentcallButtonState == 0 ) 
+  {
+    for (int i = 0; i < 10; i++)
+    {
+      numberPhone += String(phone[i]);
+      delay(50);
+      Serial.println(numberPhone);
     }
-    if (numberPhone.length() == 10 ) {
-
+    if (numberPhone.length() == 10) 
+    {
       lcd.clear();
       lcd.setCursor(3, 0);
       lcd.print("CALLING...");
@@ -170,7 +155,9 @@ void callNumber() {
 
       numberPhone = "";
       lcd.clear();
-    } else {
+    } 
+    else 
+    {
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("ERROR:");
@@ -178,19 +165,10 @@ void callNumber() {
       lcd.print("Invalid phone");
       delay(2000);
       lcd.clear();
-      
     }
   }
 }
 
-void Ring(){
-  digitalWrite(BUZZ, 1); delay(50);
-  digitalWrite(BUZZ, 0);
-}
+void Ring(){digitalWrite(BUZZ, 1); delay(50); digitalWrite(BUZZ, 0);}
 
-void ringCall(){
-  for(int i = 0; i<300; i++){
-    digitalWrite(BUZZ,1); delay(50);
-    digitalWrite(BUZZ, 0); delay(50);
-  }
-}
+void ringCall(){for(int i = 0; i<300; i++){digitalWrite(BUZZ,1); delay(50);digitalWrite(BUZZ, 0); delay(50);}}
